@@ -40,8 +40,8 @@ const Pagination = ({ page, lastPage, setPage, from, to, total }) => {
             <button onClick={() => setPage(page - 1)} disabled={page === 1} className={`px-3 py-1 rounded border ${page === 1 ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700 hover:bg-gray-100 border-gray-300'}`}>Prev</button>
 
             {pages.map((p, index) => p === '...' ? (
-                <span key={index} className='px-3 py-1 text-gray-400 select-none'>...</span> ) : (
-                <button key={p} onClick={() => setPage(p)} className={`px-3 py-1 rounded ${p === page ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
+                <span key={`ellipsis-${index}`} className='px-3 py-1 text-gray-400 select-none'>...</span> ) : (
+                <button key={`page-${p}`} onClick={() => setPage(p)} className={`px-3 py-1 rounded ${p === page ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>
                     {p}
                 </button>
             ))}
