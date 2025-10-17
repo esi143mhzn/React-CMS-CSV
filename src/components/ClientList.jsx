@@ -6,10 +6,11 @@ const ClientList = () => {
     const [clients, setClients] = useState([]);
     const [page, setPage] = useState(1);
     const [pagination, setPagination] = useState({});
+    const [filter, setFilter] = useState('all');
 
-    const fetchClients = async (currentPage = 1) => {
+    const fetchClients = async (currentPage = 1, currentFilter = filter) => {
         try {
-            const res = await getClients(currentPage);
+            const res = await getClients(currentPage, currentFilter);
             setClients(res.data.data);
             setPagination({
                 current_page: res.data.current_page,
@@ -25,13 +26,25 @@ const ClientList = () => {
     }
 
     useEffect(() => {
-        fetchClients(page);
-    }, [page]);
+        fetchClients(page, filter);
+    }, [page, filter]);
+
+    const handleFilterChange = (e) => {
+        setFilter(e.target.value);
+        setPage(1);
+    }
 
     return (
         <div className='p-6 bg-gray-50 rounded shadow'>
             <div className='flex  justify-between items-center mb-4'>
                 <h2 className='text-2xl font-bold mb-4'>Clients Report</h2>
+                <div className="flex justify-around space-x-3">
+                    <select name="filter" value={filter} onChange={handleFilterChange} className='border border-amber-400 rounded py-2 px-2'>
+                        <option value="all">All</option>
+                        <option value="duplicates">Duplicate</option>
+                        <option value="unique">Unique</option>
+                    </select>
+                </div>
             </div>
             <div className='overflow-x-auto'>
                 <table className='min-w-full bg-white border border-gray-200 rounded'>
