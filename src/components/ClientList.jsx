@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getClients} from '../api/clientApi';
+import { getClients, getExportClients } from '../api/clientApi';
 import Pagination from './Pagination';
 
 const ClientList = () => {
@@ -34,11 +34,38 @@ const ClientList = () => {
         setPage(1);
     }
 
+    const handleExport = async (filter = "all") => {
+        try {
+            const now = new Date();
+            const pad = (num) => num.toString().padStart(2, '0');
+
+            const formattedDate = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+            let filename = `clients_export_${filter}_${formattedDate}.csv`;
+
+            const response = await getExportClients(filter);
+            const blob = new Blob([response.data], { type: response.data.type || 'application.octet-stream' })
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            window.URL.revokeObjectURL(url);
+
+        } catch (error) {
+            console.error('Export failed:', error);
+        }
+    }
+
     return (
         <div className='p-6 bg-gray-50 rounded shadow'>
             <div className='flex  justify-between items-center mb-4'>
                 <h2 className='text-2xl font-bold mb-4'>Clients Report</h2>
                 <div className="flex justify-around space-x-3">
+                    <button onClick={() => handleExport(filter)} className="bg-slate-400 rounded py-2 px-4 text-white cursor-pointer hover:bg-slate-200 transition-colors duration-200 hover:text-black">CSV Export</button>
                     <select name="filter" value={filter} onChange={handleFilterChange} className='border border-amber-400 rounded py-2 px-2'>
                         <option value="all">All</option>
                         <option value="duplicates">Duplicate</option>

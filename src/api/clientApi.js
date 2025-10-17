@@ -5,3 +5,9 @@ const api = axios.create({
 })
 
 export const getClients = (page = 1, filter = "") => api.get(`/clients?page=${page}&filter=${filter}`);
+export const getExportClients = async (filter = "") => {
+    const response = await api.get(`/clients/export?filter=${filter}`, {
+        responseType: "blob",
+    })
+    return response;
+}
