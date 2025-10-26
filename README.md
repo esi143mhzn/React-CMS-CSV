@@ -1,16 +1,72 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Client Management System
 
-Currently, two official plugins are available:
+Client management system that enables users to import client data from CSV files, automatically detect and highlight duplicate records, manage client information, and export data back to CSV format.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- **CSV Import:** Upload client data directly from CSV files.  
+- **Duplicate Detection:** Automatically flags records with identical company name, email, and phone number.  
+- **Client Management:** Edit and delete duplicate client records.  
+- **CSV Export:** Export filtered or full client lists to CSV.  
+- **Pagination & Filtering:** Easily navigate through large datasets.  
+- **Error Handling:** Prevents invalid or incomplete imports.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework:** React 19.1.1 + Vite  
+- **Language:** JavaScript (ES6+)  
+- **HTTP Client:** Axios
+- **Styling:** TailwindCSS
+- **State Management:** React Hooks
+- **Version Control:** Git
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Prerequisites
+
+Ensure the following are installed on your system:
+
+| Requirement | Recommended Version |
+|--------------|----------------------|
+| Node.js | ≥ 22.17.1 |
+| npm | ≥ 10.9.2 |
+| Backend API | Laravel 12 / Node.js (running separately) |
+
+## Installation (Local Setup)
+
+### Clone the Repository
+```bash
+git clone https://github.com/esi143mhzn/React-CMS-CSV.git
+cd React-CMS-CSV 
+```
+
+### Install Dependencies
+```bash
+npm install 
+```
+
+### Configure API URL
+Open src/api/clientApi.js and update the base URL to your backend API endpoint:
+```bash
+const api = axios.create({
+    baseURL: 'http://localhost:8000/api',
+    withCredentials: false,
+})
+```
+
+### Run the Development Server
+```bash
+npm run dev
+```
+Then visit the app at:
+```bash
+http://localhost:5173
+```
+**NOTE:** Ensure your backend server is running (e.g., Laravel API) before using the app.
+
+## License
+
+This project is open-sourced under the MIT License.
+
+## Support
+
+For technical issues or feature requests, please open an issue or contact the maintainer.
