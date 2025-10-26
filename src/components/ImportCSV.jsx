@@ -4,8 +4,8 @@ import { importClients } from '../api/clientApi';
 const ImportCSV = ({ onSuccess }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [importErrors, setImportErrors] = useState([]);
-  const [duplicates, setDuplicates] = useState([]);
+  const [importErrors, setImportErrors] = useState({});
+  const [duplicates, setDuplicates] = useState({});
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -18,21 +18,23 @@ const ImportCSV = ({ onSuccess }) => {
     setLoading(true);
     setSuccessMsg("");
     setErrorMsg("");
-    setImportErrors([]);
-    setDuplicates([]);
+    setImportErrors({});
+    setDuplicates({});
 
     try {
       const res = await importClients(file);
       setSuccessMsg(res.data.message);
-      setImportErrors(res.data.import_errors || []);
+      setImportErrors(res.data.import_errors || {});
       setErrorMsg(res.data.error || []);
-      setDuplicates(res.data.duplicates || []);
+      setDuplicates(res.data.duplicates || {});
 
       onSuccess && onSuccess();
       setFile(null);
       if(fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
-      setErrorMsg("Import Failed:", err)
+      const errMsg = err.response.data
+      console.log(errMsg.error)
+      setErrorMsg("Import Failed: " + errMsg.error);
     } finally {
       setLoading(false);
     }
