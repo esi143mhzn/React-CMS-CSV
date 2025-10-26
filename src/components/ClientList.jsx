@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getClients, getExportClients } from "../api/clientApi";
 import Pagination from './Pagination';
-import ImportCSV from '../components/ImportCSV'
+import ImportCSV from '../components/ImportCSV';
+import { Link } from "react-router-dom";
 
 const ClientReport = () => {
   const [clients, setClients] = useState([]);
@@ -47,9 +48,7 @@ const ClientReport = () => {
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">Clients Report</h2>
-
-        {/* Alerts */}
-
+        
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <button
@@ -59,12 +58,12 @@ const ClientReport = () => {
             Export CSV
           </button>
 
-          <a
-            href="/duplicate-clients"
+          <Link
+            to="/duplicate-clients"
             className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
           >
             Manage Duplicates
-          </a>
+          </Link>
 
           {/* Import Form */}
           <div className="ml-auto w-full md:w-auto">
@@ -84,12 +83,6 @@ const ClientReport = () => {
             <option value="unique">Unique</option>
           </select>
         </div>
-
-        {/* Import Errors */}
-        
-
-        {/* Duplicates */}
-        
 
         {/* Clients Table */}
         <div className="bg-white rounded-md shadow overflow-hidden">
